@@ -5,5 +5,3 @@ dist/
 # Ignore environment variable files
 .env
 
-# Ignore husky configuration
-.husky/
