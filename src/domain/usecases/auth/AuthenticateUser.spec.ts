@@ -4,24 +4,48 @@ import { AuthenticateUser } from "./AuthenticateUser";
 
 import { InMemoryUserRepository } from "@/domain/repositories/InMemoryUserRepository";
 
+class FakeHashComparer {
+  constructor(private readonly shouldMatch: boolean) {}
+  async compare(): Promise<boolean> {
+    return this.shouldMatch;
+  }
+}
+
+const makeSut = (shouldMatch = true) => {
+  const repo = new InMemoryUserRepository();
+  const hashComparer = new FakeHashComparer(shouldMatch);
+  const sut = new AuthenticateUser(repo, hashComparer);
+  return { repo, sut };
+};
+
 describe("AuthenticateUser", () => {
     it("should throw an error if the user is not found", async () => {
-        const repo = new InMemoryUserRepository();
-        const useCase = new AuthenticateUser(repo);
+        const { sut } = makeSut();
     
-        await expect(useCase.execute("nonexistent@example.com")).rejects.toThrow("User not found");
+        await expect(sut.execute("nonexistent@example.com", "any-password")).rejects.toThrow("User not found");
     });
 
     it("should return the user if found", async () => {
+        const { repo, sut } = makeSut();
+        await repo.insert({
+            id: "1",
+            email: "user@example.com",
+            passwordHash: "hashedpassword",
+        });
+    
+        const user = await sut.execute("user@example.com", "any-password");
+        expect(user.email).toBe("user@example.com");
+    });
+
+    it("should throw when password does not match", async () => {
         const repo = new InMemoryUserRepository();
         await repo.insert({
             id: "1",
             email: "user@example.com",
             passwordHash: "hashedpassword",
         });
-        const useCase = new AuthenticateUser(repo);
+        const useCase = new AuthenticateUser(repo, new FakeHashComparer(false));
     
-        const user = await useCase.execute("user@example.com");
-        expect(user.email).toBe("user@example.com");
+        await expect(useCase.execute("user@example.com", "wrongpassword")).rejects.toThrow("Invalid credentials");
     });
 });
