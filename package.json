@@ -17,7 +17,8 @@
   "license": "ISC",
   "packageManager": "pnpm@10.12.4",
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "typeorm": "^0.3.28"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^20.4.1",
