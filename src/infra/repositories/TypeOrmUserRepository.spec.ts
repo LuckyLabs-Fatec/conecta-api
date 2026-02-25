@@ -1,11 +1,16 @@
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 
 import { TypeOrmUserRepository } from "./TypeOrmUserRepository";
 
 describe("TypeOrmUserRepository", () => {
+    let sut: TypeOrmUserRepository;
+
+    beforeEach(() => {
+        sut = new TypeOrmUserRepository();
+    });
+
     it("should return null if email does not exist", async () => {
-        const repo = new TypeOrmUserRepository();
-        const user = await repo.findByEmail("nonexistent@example.com");
+        const user = await sut.findByEmail("nonexistent@example.com");
         expect(user).toBeNull();
     });
 });
