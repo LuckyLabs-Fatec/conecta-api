@@ -22,7 +22,7 @@ describe("AuthenticateUser", () => {
     it("should throw an error if the user is not found", async () => {
         const { sut } = makeSut();
     
-        await expect(sut.execute("nonexistent@example.com", "any-password")).rejects.toThrow("User not found");
+        await expect(sut.execute("nonexistent@example.com", "any-password")).rejects.toThrow("Invalid credentials");
     });
 
     it("should return the user if found", async () => {
