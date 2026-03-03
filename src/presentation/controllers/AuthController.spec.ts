@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { faker } from "@faker-js/faker";
 
 import { AuthController } from "./AuthController";
 
@@ -25,8 +26,8 @@ describe("AuthController", () => {
 
         const req = {
             body: {
-                email: "notfound@example.com",
-                password: "any-password",
+                email: faker.internet.email(),
+                password: faker.internet.password(),
             }
         } as Request;
 
