@@ -57,4 +57,14 @@ describe("AuthenticateUser", () => {
     
         await expect(useCase.execute(email, passwordHash)).rejects.toThrow("Invalid credentials");
     });
+
+    it("should return the user when password matches", async () => {
+        const repo = new InMemoryUserRepository();
+
+        const { email, passwordHash } = await setupUser(repo);
+        const useCase = new AuthenticateUser(repo, new FakeHashComparer(true));
+    
+        const user = await useCase.execute(email, passwordHash);
+        expect(user.email).toBe(email);
+    });
 });
