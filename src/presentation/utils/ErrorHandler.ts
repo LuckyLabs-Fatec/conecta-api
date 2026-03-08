@@ -8,6 +8,10 @@ export class ErrorHandler {
     }
 
     static getMessage(error: unknown): string {
-        return error instanceof Error ? error.message : "Internal server error";
+        if (error instanceof Error && error.message.trim().length > 0) {
+            return error.message;
+        }
+
+        return "Internal server error";
     }
 }
