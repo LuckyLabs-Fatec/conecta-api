@@ -41,4 +41,25 @@ describe("AuthController", () => {
         expect(res.status).toHaveBeenCalledWith(401);
         expect(res.json).toHaveBeenCalledWith({ message: "Invalid credentials" });
     })
+
+    it("should return 500 on unexpected errors", async () => {
+        vi.mocked(authenticateUserMock.execute).mockRejectedValue(new Error());
+
+        const req = {
+            body: {
+                email: faker.internet.email(),
+                password: faker.internet.password(),
+            }
+        } as Request;
+
+        const res = {
+            status: vi.fn().mockReturnThis(),
+            json: vi.fn(),
+        } as unknown as Response;
+
+        await authController.login(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.json).toHaveBeenCalledWith({ message: "Internal server error" });
+    })
 });
