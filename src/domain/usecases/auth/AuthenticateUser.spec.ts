@@ -3,7 +3,7 @@ import { faker } from "@faker-js/faker";
 
 import { AuthenticateUser } from "./AuthenticateUser";
 
-import { InMemoryUserRepository } from "@/domain/repositories/InMemoryUserRepository";
+import { InMemoryUserRepository } from "@/test/doubles/InMemoryUserRepository";
 
 class FakeHashComparer {
   constructor(private readonly shouldMatch: boolean) {}
