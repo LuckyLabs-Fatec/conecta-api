@@ -1,4 +1,4 @@
-export class ErrorHandler {
+export class HttpErrorMapper {
     static getStatusCode(error: unknown): number {
         if (error instanceof Error && 'statusCode' in error) {
             const customError = error as { statusCode: number };

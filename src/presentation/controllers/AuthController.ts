@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
 import { AuthenticateUser } from "@/domain/usecases/auth/AuthenticateUser";
-import { ErrorHandler } from "@/presentation/utils/ErrorHandler";
+import { HttpErrorMapper } from "@/presentation/mappers/HttpErrorMapper";
 
 export class AuthController {
     constructor (
@@ -14,8 +14,8 @@ export class AuthController {
         try {
             await this.authenticateUser.execute(email, password);
         } catch (error: unknown) {
-            const statusCode = ErrorHandler.getStatusCode(error);
-            const message = ErrorHandler.getMessage(error);
+            const statusCode = HttpErrorMapper.getStatusCode(error);
+            const message = HttpErrorMapper.getMessage(error);
             res.status(statusCode).json({ message });
         }
     }
