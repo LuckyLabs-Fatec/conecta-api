@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, it } from "vitest";
 
 import { UserEntity } from "../database/typeorm/entities/UserEntity";
-import { TestDataSource } from "../database/typeorm/test-data-source";
+import { TestDataSource } from "../../test/infra/typeorm/test-data-source";
 
 import { TypeOrmUserRepository } from "./TypeOrmUserRepository";
 
