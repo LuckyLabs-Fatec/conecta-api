@@ -18,8 +18,4 @@ const authController = new AuthController({
 
 app.post("/auth/login", (req, res) => authController.login(req, res));
 
-app.get("/", (req, res) => {
-  res.send({ message: "Hello, World!" });
-});
-
 export { app };
