@@ -54,22 +54,6 @@ function buildProfileRagPrompt(question: string, context: string): string {
   ].join("\n");
 }
 
-aiRoutes.post("/generate", async (req, res) => {
-  try {
-    const { prompt } = req.body as { prompt?: string };
-
-    if (!prompt) {
-      return res.status(400).send({ message: "prompt is required" });
-    }
-
-    const text = await aiGenerator.generate(prompt);
-
-    return res.status(200).send({ text });
-  } catch {
-    return res.status(500).send({ message: "AI generation failed" });
-  }
-});
-
 aiRoutes.post("/profile-context", (req, res) => {
   const { profiles } = req.body as { profiles?: ProfileRagContextInput[] };
 
