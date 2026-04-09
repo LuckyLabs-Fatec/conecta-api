@@ -2,8 +2,12 @@ import { Request, Response } from "express";
 
 import { HttpErrorMapper } from "@/presentation/mappers/HttpErrorMapper";
 
-type AuthenticateUserContract = {
-  execute(email: string, password: string): Promise<unknown>;
+export type AuthenticateUserResponse = {
+  accessToken: string;
+};
+
+export type AuthenticateUserContract = {
+  execute(email: string, password: string): Promise<AuthenticateUserResponse>;
 };
 
 export class AuthController {
@@ -14,7 +18,7 @@ export class AuthController {
 
     try {
       const result = await this.authenticateUser.execute(email, password);
-      res.status(200).json(result ?? {});
+      res.status(200).json({ accessToken: result.accessToken });
     } catch (error: unknown) {
       const statusCode = HttpErrorMapper.getStatusCode(error);
       const message = HttpErrorMapper.getMessage(error);
