@@ -2,21 +2,20 @@ import { Request, Response } from "express";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { faker } from "@faker-js/faker";
 
-import { AuthController } from "./AuthController";
+import { AuthController, AuthenticateUserContract } from "./AuthController";
 
-import { AuthenticateUser } from "@/domain/usecases/auth/AuthenticateUser";
 import { InvalidCredentialsError } from "@/domain/errors/InvalidCredentialsError";
 
 
 
 describe("AuthController", () => {
     let authController: AuthController;
-    let authenticateUserMock: AuthenticateUser;
+    let authenticateUserMock: AuthenticateUserContract;
 
     beforeEach(() => {
         authenticateUserMock = {
             execute: vi.fn(),
-        } as unknown as AuthenticateUser;
+        };
 
         authController = new AuthController(authenticateUserMock);
     })
@@ -62,4 +61,26 @@ describe("AuthController", () => {
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.json).toHaveBeenCalledWith({ message: "Internal server error" });
     })
+
+    it("should return 200 and access token on successful authentication", async () => {
+        const fakeToken = faker.string.uuid();
+        vi.mocked(authenticateUserMock.execute).mockResolvedValue({ accessToken: fakeToken });
+
+        const req = {
+            body: {
+                email: faker.internet.email(),
+                password: faker.internet.password(),
+            }
+        } as Request;
+
+        const res = {
+            status: vi.fn().mockReturnThis(),
+            json: vi.fn(),
+        } as unknown as Response;
+
+        await authController.login(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({ accessToken: fakeToken });
+    });
 });
