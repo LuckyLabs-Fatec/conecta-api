@@ -1,9 +1,10 @@
-import { compare } from "bcryptjs";
+import { compare, hash } from "bcryptjs";
 import { sign } from "jsonwebtoken";
 
 import { InvalidCredentialsError } from "@/domain/errors/InvalidCredentialsError";
+import { UserAlreadyExistsError } from "@/domain/errors/UserAlreadyExistsError";
 import { PrismaUserRepository } from "@/infra/repositories/PrismaUserRepository";
-import { AuthController } from "@/presentation/controllers/AuthController";
+import { AuthController, CreateUserRequest } from "@/presentation/controllers/AuthController";
 
 export function makeAuthController(): AuthController {
   const userRepository = new PrismaUserRepository();
@@ -42,6 +43,28 @@ export function makeAuthController(): AuthController {
 
       return { accessToken };
 
+    },
+  }, {
+    async execute(data: CreateUserRequest) {
+      const existingUser = await userRepository.findByEmail(data.email);
+
+      if (existingUser) {
+        throw new UserAlreadyExistsError();
+      }
+
+      const passwordHash = await hash(data.password, 8);
+
+      const createdUser = await userRepository.create({
+        email: data.email,
+        passwordHash,
+        name: data.name,
+      });
+
+      return {
+        id: createdUser.id,
+        email: createdUser.email,
+        name: createdUser.name,
+      };
     },
   });
 }
