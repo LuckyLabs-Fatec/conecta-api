@@ -1,5 +1,29 @@
 import request from "supertest";
-import { describe, expect, it } from "vitest";
+import { hashSync } from "bcryptjs";
+import { describe, expect, it, vi } from "vitest";
+
+process.env.JWT_SECRET = process.env.JWT_SECRET ?? "test-secret";
+
+const validPasswordHash = hashSync("valid-password", 8);
+
+vi.mock("@/infra/repositories/PrismaUserRepository", () => {
+  return {
+    PrismaUserRepository: class {
+      async findByEmail(email: string) {
+        if (email !== "valid@email.com") {
+          return null;
+        }
+
+        return {
+          id: "user-id",
+          email: "valid@email.com",
+          passwordHash: validPasswordHash,
+          name: "Valid User",
+        };
+      }
+    },
+  };
+});
 
 import { app } from "./app";
 
@@ -23,5 +47,6 @@ describe("Auth integration tests", () => {
     });
 
     expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty("accessToken");
   });
 });
