@@ -2,7 +2,7 @@
   "name": "tempo-justo-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/main/index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only -r tsconfig-paths/register src/main/index.ts",
     "build": "tsc",
