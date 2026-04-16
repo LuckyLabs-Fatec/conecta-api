@@ -5,12 +5,13 @@
   "main": "dist/main/index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only -r tsconfig-paths/register src/main/index.ts",
-    "build": "tsc && tsc-alias",
+    "build": "prisma generate && tsc && tsc-alias",
     "start": "node dist/main/index.js",
     "lint": "eslint src --ext .ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest --run --coverage",
+    "postinstall": "prisma generate",
     "prepare": "husky"
   },
   "keywords": [],
