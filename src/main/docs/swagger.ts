@@ -1,9 +1,9 @@
 const swaggerDocument = {
   openapi: "3.0.3",
   info: {
-    title: "Conecta API",
+    title: "Tempo Justo API",
     version: "1.0.0",
-    description: "Documentação das rotas de autenticação e IA da Conecta API.",
+    description: "Documentação das rotas de autenticação e IA da Tempo Justo API.",
   },
   tags: [
     { name: "Health", description: "Verificação básica da API" },
@@ -188,7 +188,7 @@ const swaggerDocument = {
         properties: {
           message: {
             type: "string",
-            example: "Hello, World!",
+            example: "Tempo Justo API is running!",
           },
         },
         required: ["message"],
