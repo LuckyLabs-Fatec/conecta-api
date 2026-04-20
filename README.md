@@ -4,6 +4,10 @@
 
 O Tempo Justo nasceu de um interesse por economia solidária e moeda social. O projeto visa compartilhar o tempo de trabalho de forma justa, permitindo que as pessoas troquem serviços e habilidades sem a necessidade de dinheiro tradicional. A ideia é criar uma comunidade onde o tempo seja valorizado como uma moeda, promovendo a colaboração e o apoio mútuo.
 
+## Como funciona
+
+![Fluxograma do processo de troca de tempo](./assets/fluxograma-interacao.png)
+
 ## Instalação
 
 1. Clone o repositório:
