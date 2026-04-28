@@ -7,3 +7,6 @@ dist/
 
 # Coverage reports
 coverage/
+# SonarQube/SonarCloud temporary files
+.sonarqube/
+.scannerwork/

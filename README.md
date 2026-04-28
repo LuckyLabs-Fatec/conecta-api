@@ -1,5 +1,7 @@
 # Tempo Justo API
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gustavocamposantunes_tempo-justo-api&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gustavocamposantunes_tempo-justo-api)
+
 ![Logo do projeto](./assets/logo.png)
 
 O Tempo Justo nasceu de um interesse por economia solidária e moeda social. O projeto visa compartilhar o tempo de trabalho de forma justa, permitindo que as pessoas troquem serviços e habilidades sem a necessidade de dinheiro tradicional. A ideia é criar uma comunidade onde o tempo seja valorizado como uma moeda, promovendo a colaboração e o apoio mútuo.

@@ -1,0 +1,3 @@
+# SonarQube/SonarCloud temporary files
+.sonarqube/
+.scannerwork/
