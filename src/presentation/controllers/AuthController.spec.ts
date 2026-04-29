@@ -42,7 +42,7 @@ describe("AuthController", () => {
     })
 
     it("should return 500 on unexpected errors", async () => {
-        vi.mocked(authenticateUserMock.execute).mockRejectedValue(new Error());
+        vi.mocked(authenticateUserMock.execute).mockRejectedValue(new Error("Internal server error"));
 
         const req = {
             body: {
