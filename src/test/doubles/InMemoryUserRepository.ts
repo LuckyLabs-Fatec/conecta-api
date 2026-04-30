@@ -2,7 +2,7 @@ import { User } from "@/domain/models/User";
 import { CreateUserParams, UserRepository } from "@/domain/repositories/UserRepository";
 
 export class InMemoryUserRepository implements UserRepository {
-  private users: User[] = [];
+  private readonly users: User[] = [];
 
   async findByEmail(email: string): Promise<User | null> {
     return this.users.find((user) => user.email === email) ?? null;
