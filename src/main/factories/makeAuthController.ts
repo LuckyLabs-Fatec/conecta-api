@@ -6,6 +6,31 @@ import { UserAlreadyExistsError } from "@/domain/errors/UserAlreadyExistsError";
 import { PrismaUserRepository } from "@/infra/repositories/PrismaUserRepository";
 import { AuthController, CreateUserRequest } from "@/presentation/controllers/AuthController";
 
+function parseJwtExpiresIn(value: string | undefined): number {
+  const input = value?.trim() ?? "15m";
+  const match = /^(\d+)([smhd])$/.exec(input);
+
+  if (!match) {
+    return 15 * 60;
+  }
+
+  const amount = Number(match[1]);
+  const unit = match[2];
+
+  switch (unit) {
+    case "s":
+      return amount;
+    case "m":
+      return amount * 60;
+    case "h":
+      return amount * 60 * 60;
+    case "d":
+      return amount * 60 * 60 * 24;
+    default:
+      return 15 * 60;
+  }
+}
+
 export function makeAuthController(): AuthController {
   const userRepository = new PrismaUserRepository();
 
@@ -29,8 +54,7 @@ export function makeAuthController(): AuthController {
         throw new Error("JWT_SECRET is not configured");
       }
 
-      const jwtExpiresIn =
-        (process.env.JWT_EXPIRES_IN ?? "15m") as Parameters<typeof sign>[2]["expiresIn"];
+      const jwtExpiresIn = parseJwtExpiresIn(process.env.JWT_EXPIRES_IN);
 
       const accessToken = sign(
         { email: user.email },
